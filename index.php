@@ -1,16 +1,25 @@
 <?php
+require __DIR__ . './Models/Genres.php';
 
 class Movie {
     public $titolo;
     public $anno;
-    public $genere;
+    public $generi;
     public $voto;
 
-    public function __construct($title, $year, $genre, $vote){
+    public function __construct($title, $year, array $genres, $vote){
         $this->titolo = $title;
         $this->anno = $year;
-        $this->genere = $genre;
+        $this->generi = $genres;
         $this->voto = $vote;
+
+        /*
+        foreach($generi as $genere){
+            if(!$genere instanceof Genres){
+                die();
+            }
+        }
+        */
     }
 
     public static function getVoteRandom(){
@@ -18,25 +27,42 @@ class Movie {
     }
 
     public function seeAllAttribute($object){
-        'Titolo:' . $object->titolo . '<hr>' . 
-        'Anno:' . $object->anno . '<hr>' . 
-        'Genere:' . $object->genere . '<hr>' . 
-        'Voto:' . $object->voto ;
+        return 'Titolo:' . $object->titolo . '<hr>' . 
+                'Anno:' . $object->anno . '<hr>' . 
+
+                'Genere:' . $this->getAllGenres() . '<hr>' . 
+                'Voto:' . $object->voto . '<hr><hr>';
+    }
+
+    
+    public function getAllGenres(){
+        $genres = '';
+        foreach($this->generi as $genere){
+            $genres .= $genere->$nomeGenere . ' ';
+        }
+        return $genres;
     }
 
 }
 
-$AvengersI = new Movie('Avengers: Infinity War', 2018, 'Superhero', Movie::getVoteRandom());
-$AvengersE = new Movie('Avengers: Endgame', 2019, 'Superhero', Movie::getVoteRandom());
+
+
+$generiAvengers = [
+    new Genres('superhero'),
+    new Genres('fantascience')
+];
+
+
+$AvengersI = new Movie('Avengers: Infinity War', 2018, $generiAvengers, Movie::getVoteRandom());
+$AvengersE = new Movie('Avengers: Endgame', 2019, $generiAvengers, Movie::getVoteRandom());
 
 //var_dump($AvengersI);
 //var_dump($AvengersE);
 
 echo $AvengersI->seeAllAttribute($AvengersI);
+echo $AvengersE->seeAllAttribute($AvengersE);
+
+//nel caso di metodo statico avrei potuto usera questa sintassi
 //echo Movie::seeAllAttribute($AvengersE);
 
-echo 'Titolo:' . $AvengersI->titolo . '<hr>' . 
-    'Anno:' . $AvengersI->anno . '<hr>' . 
-    'Genere:' . $AvengersI->genere . '<hr>' . 
-    'Voto:' . $AvengersI->voto . '<br>';
 

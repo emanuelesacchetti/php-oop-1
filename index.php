@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . './Models/Genres.php';
+require __DIR__ . './Models/db.php';
 
 class Movie {
     public $titolo;
@@ -7,19 +7,12 @@ class Movie {
     public $generi;
     public $voto;
 
-    public function __construct($title, $year, array $genres, $vote){
+    public function __construct($title, $year, Array $genres, $vote){
         $this->titolo = $title;
         $this->anno = $year;
         $this->generi = $genres;
         $this->voto = $vote;
 
-        /*
-        foreach($generi as $genere){
-            if(!$genere instanceof Genres){
-                die();
-            }
-        }
-        */
     }
 
     public static function getVoteRandom(){
@@ -37,8 +30,9 @@ class Movie {
     
     public function getAllGenres(){
         $genres = '';
+        
         foreach($this->generi as $genere){
-            $genres .= $genere->$nomeGenere . ' ';
+            $genres .= $genere->nomeGenere . ' ';
         }
         return $genres;
     }

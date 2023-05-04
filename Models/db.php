@@ -2,6 +2,7 @@
 
 class Genres {
     public $nomeGenere;
+    //public $VM18;
     
 
     public function __construct($genreName){
